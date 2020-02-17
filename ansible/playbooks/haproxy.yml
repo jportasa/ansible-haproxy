@@ -2,7 +2,7 @@
 - hosts: localhost
   become: True
   roles:
-    - haproxy
+    - geerlingguy.haproxy
 
   post_tasks:
     - name: Deploy update-haproxy-peers.sh
