@@ -1,3 +1,4 @@
+{% raw %}
 #!/bin/bash
 
 instance_id=$(curl http://169.254.169.254/latest/meta-data/instance-id)
@@ -15,3 +16,4 @@ for (( i=0; i<$(( ${#results[@]} / 2 )); i++ )); do
   ip=${results[$((1+i*2))]}
   echo "    peer $id $ip:80"
 done
+{% endraw %}
