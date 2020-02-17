@@ -18,4 +18,4 @@
         user: root
         minute: "3"
         hour: "*"
-        job: "/usr/bin/update-haproxy-peers.sh > /etc/haproxy/peers.cfg; service haproxy reload"
+        job: "/usr/bin/update-haproxy-peers.sh"
