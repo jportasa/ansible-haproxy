@@ -16,6 +16,6 @@
     - cron:
         name: Cron to update backend ec2 ASG peers
         user: root
-        minute: "3"
+        minute: "*/3"
         hour: "*"
         job: "/usr/bin/update-haproxy-peers.sh"
