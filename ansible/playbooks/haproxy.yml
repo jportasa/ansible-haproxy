@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  become: True
+  roles:
+    - haproxy-lb
+
+  post_tasks:
+    - name: Deploy update-haproxy-peers.sh
+      template:
+        src: "update-haproxy-peers.sh"
+        dest: "/usr/bin/update-haproxy-peers.sh"
+        owner: root
+        group: root
+        mode: 0740
+
+    - cron:
+        name: Cron to update backend ec2 ASG peers
+        user: root
+        minute: "3"
+        hour: "0"
+        job: "/usr/bin/update-haproxy-peers.sh > /etc/haproxy/peers.cfg; service haproxy reload"
