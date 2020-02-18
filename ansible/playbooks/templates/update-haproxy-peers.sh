@@ -20,8 +20,8 @@ for (( i=0; i<$(( ${#results[@]} / 2 )); i++ )); do
 done
 
 # Check haproxy config is OK
-haproxy -c -V -f /etc/haproxy/haproxy.cfg
+/usr/sbin/haproxy -c -V -f /etc/haproxy/haproxy.cfg
 if [ $? -eq 0 ]; then
   service haproxy reload
 fi
-{% endraw %}
+

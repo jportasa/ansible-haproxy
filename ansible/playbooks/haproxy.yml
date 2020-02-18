@@ -24,4 +24,4 @@
         user: root
         minute: "*/3"
         hour: "*"
-        job: "sudo /usr/bin/update-haproxy-peers.sh"
+        job: "/usr/bin/update-haproxy-peers.sh"
