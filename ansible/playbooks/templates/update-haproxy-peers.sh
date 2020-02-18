@@ -1,7 +1,6 @@
 {% raw %}
 #!/bin/bash
 
-cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.cur
 cp /etc/haproxy/haproxy.cfg.template /etc/haproxy/haproxy.cfg
 
 instance_id=$(curl http://169.254.169.254/latest/meta-data/instance-id)
@@ -13,12 +12,16 @@ instances=$(aws autoscaling describe-auto-scaling-groups --auto-scaling-group-na
 private_ips=$(aws ec2 describe-instances --instance-ids $instances --region $region --query 'Reservations[].Instances[][InstanceId,NetworkInterfaces[].PrivateIpAddresses[0].PrivateIpAddress]' --output text | xargs -I{} echo -n "{};")
 IFS=";" read -a results <<< "$private_ips"
 
-echo "peers lb_replication"
 for (( i=0; i<$(( ${#results[@]} / 2 )); i++ )); do
   id=${results[$((i*2))]}
   ip=${results[$((1+i*2))]}
   tabs 8
   echo -e "\tserver ${id} ${ip}:80 maxconn 32 check" >> /etc/haproxy/haproxy.cfg
 done
-service haproxy reload
+
+# Check haproxy config is OK
+haproxy -c -V -f /etc/haproxy/haproxy.cfg
+if [ $? -eq 0 ]; then
+  service haproxy reload
+fi
 {% endraw %}

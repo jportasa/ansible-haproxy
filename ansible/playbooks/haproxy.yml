@@ -12,10 +12,16 @@
         owner: root
         group: root
         mode: 0740
-
+    - name: Deploy haproxy.cfg.template
+      template:
+        src: "haproxy.cfg.template"
+        dest: "/etc/haproxy/haproxy.cfg.template"
+        owner: root
+        group: root
+        mode: 0740
     - cron:
         name: Cron to update backend ec2 ASG peers
         user: root
         minute: "*/3"
         hour: "*"
-        job: "/usr/bin/update-haproxy-peers.sh"
+        job: "sudo /usr/bin/update-haproxy-peers.sh"
