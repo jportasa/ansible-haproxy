@@ -24,4 +24,4 @@ done
 if [ $? -eq 0 ]; then
   service haproxy reload
 fi
-
+{% endraw %}
